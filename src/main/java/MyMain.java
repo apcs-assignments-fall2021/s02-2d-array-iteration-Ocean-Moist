@@ -8,7 +8,17 @@ public class MyMain {
     //      int y = "banana".compareTo("apple"); // y is positive
     public static String findLastWord(String[] arr) {
         // YOUR CODE HERE
-        return "";
+
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i+1; j < arr.length; j++) {
+                if (arr[i].compareTo(arr[j]) > 0) {
+                    String temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+        return arr[arr.length-1];
     }
 
     // Given a 2D array, return an 1D array of the last word
@@ -17,7 +27,11 @@ public class MyMain {
     // Hint: use the previous method to help yourself!
     public static String[] findLastWord2D(String[][] mat) {
         // YOUR CODE HERE
-        return null;
+        String[] arr = new String[mat.length];
+        for (int i = 0; i < mat.length; i++) {
+            arr[i] = findLastWord(mat[i]);
+        }
+        return arr;
     }
 
     // Given a 2D array and some column index col
@@ -31,7 +45,13 @@ public class MyMain {
     // alternatively, consider the contains() method
     public static int appleCounter(String[][] mat, int col) {
         // YOUR CODE HERE
-        return -1;
+        int count = 0;
+        for (String[] strings : mat) {
+            if (strings[col].contains("apple")) {
+                count++;
+            }
+        }
+        return count;
     }
 
     // Given a 2D array, return the column number corresponding
@@ -42,8 +62,22 @@ public class MyMain {
     // Hint 2: you might need to loop through the columns!
     public static int findMostAppleColumn(String[][] mat) {
         // YOUR CODE HERE
-        return -1;
+        int[] arr = new int[mat[0].length];
+        for (int i = 0; i < mat[0].length; i++) {
+            arr[i] = appleCounter(mat, i);
+        }
+        int max = arr[0];
+        int maxIndex = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > max) {
+                max = arr[i];
+                maxIndex = i;
+            }
+        }
+        return maxIndex;
     }
+
+
 
 
     // Creates Pascal's Triangle, with a height of n
@@ -71,7 +105,17 @@ public class MyMain {
 
     public static int[][] pascal(int height) {
         // YOUR CODE HERE
-        return null;
+        int[][] arr = new int[height][height];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (j == 0 || j == i) {
+                    arr[i][j] = 1;
+                } else {
+                    arr[i][j] = arr[i-1][j-1] + arr[i-1][j];
+                }
+            }
+        }
+        return arr;
     }
 
 
@@ -108,7 +152,22 @@ public class MyMain {
     // * can you use a for loop that goes through that pattern?
     public static boolean isMagic(int[][] mat) {
         // YOUR CODE HERE
-        return false;
+        int sum = 0;
+        for (int i = 0; i < mat.length; i++) {
+            sum += mat[i][i];
+        }
+        for (int i = 0; i < mat.length; i++) {
+            int sumRow = 0;
+            int sumCol = 0;
+            for (int j = 0; j < mat.length; j++) {
+                sumRow += mat[i][j];
+                sumCol += mat[j][i];
+            }
+            if (sumRow != sum || sumCol != sum) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
